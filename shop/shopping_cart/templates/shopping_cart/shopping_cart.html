@@ -1,0 +1,18 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+    {% for item in cart %}
+        <p>Product: {{ item.items.get }}</p>
+        <p>Author: {{ item.owner }}</p>
+        <p>You order this product to cart at {{ item.date_ordered }}</p>
+        <p>This product was created at {{ item.date_added }}</p>
+    {% endfor %}
+
+</body>
+</html>

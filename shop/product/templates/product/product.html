@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+    {% load core_tags %}
+    {{ get_product }}
+    {% for item in product %}
+        <div id="product">
+            <p id="name">{{ item.name }}</p>
+            <p id="category">{{ item.category }}</p>
+            <p id="created_at">{{ item.created_at|date:"Y m d " }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static '/css/main.css' %}" type="text/css">
+</head>
+<body>
+    <header>
+        <nav id="top_header">
+            <ul>
+                <li><a href="{% url 'main_page' %}" id="name">Site</a></li>
+                <form class="form-inline my-2 my-lg-0" action="{% url 'main_page' %}">
+                    <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'user_cart' %}">Cart</a></li>
+                {% else %}
+                <li><a href="{% url 'main_page' %}">Signup</a></li>
+                {% endif %}
+                <li><a href="{% url 'add_product' %}">Add product</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% for item in product %}
+    <div id="{{ item.slug }}" class="information">
+        <p id="{{ item.name }}">Name:{{ item.name }}</p>
+        <p id="{{ item.pk }}">Price:{{ item.price }} €</p>
+        <p id="{{ item.category }}">Category:{{ item.category }}</p>
+        <p id="{{ item.created_by }}">Author:{{ item.created_by }}</p>
+        <p id="{{ item.created_at }}">Uploaded at:{{ item.created_at|date:"Y:m:d" }}</p>
+        <a href="{{ item.slug }}">See more</a>
+        <div type="addToCartButton">
+            <button type="submit">
+                <span>
+                    <a href="{% url 'add_to_cart' item.pk %}">Add to cart</a>
+                </span>
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+
+</html>
