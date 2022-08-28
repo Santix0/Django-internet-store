@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
+{% load product_tags %}
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
@@ -25,22 +25,23 @@
             </ul>
         </nav>
     </header>
+    {% get_products as product %}
     {% for item in product %}
-    <div id="{{ item.slug }}" class="information">
-        <p id="{{ item.name }}">Name:{{ item.name }}</p>
-        <p id="{{ item.pk }}">Price:{{ item.price }} €</p>
-        <p id="{{ item.category }}">Category:{{ item.category }}</p>
-        <p id="{{ item.created_by }}">Author:{{ item.created_by }}</p>
-        <p id="{{ item.created_at }}">Uploaded at:{{ item.created_at|date:"Y:m:d" }}</p>
-        <a href="{{ item.slug }}">See more</a>
-        <div type="addToCartButton">
-            <button type="submit">
-                <span>
-                    <a href="{% url 'add_to_cart' item.pk %}">Add to cart</a>
-                </span>
-            </button>
-        </div>
-    </div>
+            <div id="{{ item.slug }}" class="information">
+                <p id="{{ item.name }}">Name:{{ item.name }}</p>
+                <p id="{{ item.pk }}">Price:{{ item.price }} €</p>
+                <p id="{{ item.category }}">Category:{{ item.category }}</p>
+                <p id="{{ item.created_by }}">Author:{{ item.created_by }}</p>
+                <p id="{{ item.created_at }}">Uploaded at:{{ item.created_at|date:"Y:m:d" }}</p>
+                <a href="{{ item.slug }}">See more</a>
+                <div type="addToCartButton">
+                    <button type="submit">
+                        <span>
+                            <a href="{% url 'add_to_cart' item.pk %}">Add to cart</a>
+                        </span>
+                    </button>
+                </div>
+            </div>
     {% endfor %}
 </body>
 
