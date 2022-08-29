@@ -1,18 +1,21 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+{% load shopping_cart_tags %}
 <head>
     <meta charset="UTF-8">
     <title>Cart</title>
 </head>
 <body>
     {% for item in cart %}
-        <p>Product: {{ item.items.get }}</p>
+        <p>Product: {{ item.items.all| join:", "}}</p>
         <p>Author: {{ item.owner }}</p>
         <p>You order this product to cart at {{ item.date_ordered }}</p>
         <p>This product was created at {{ item.date_added }}</p>
     {% endfor %}
+    <button>
+        <a href="cart_total_cost">Buy</a>
+    </button>
 
 </body>
 </html>

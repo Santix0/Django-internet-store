@@ -33,7 +33,7 @@
                 <p id="{{ item.category }}">Category:{{ item.category }}</p>
                 <p id="{{ item.created_by }}">Author:{{ item.created_by }}</p>
                 <p id="{{ item.created_at }}">Uploaded at:{{ item.created_at|date:"Y:m:d" }}</p>
-                <a href="{{ item.slug }}">See more</a>
+                <a href="{{ item.get_absolute_url }}">See more</a>
                 <div type="addToCartButton">
                     <button type="submit">
                         <span>

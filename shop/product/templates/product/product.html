@@ -5,11 +5,13 @@
     <title>Product</title>
 </head>
 <body>
-    {% load core_tags %}
-    {{ get_product }}
+    {% load product_tags %}
+    {% get_product_by_slug as product %}
     {% for item in product %}
         <div id="product">
             <p id="name">{{ item.name }}</p>
+            <p id="price">{{ item.price }}</p>
+            <p id="author">{{ item.author }}</p>
             <p id="category">{{ item.category }}</p>
             <p id="created_at">{{ item.created_at|date:"Y m d " }}</p>
         </div>

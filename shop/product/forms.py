@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .models import Category, Product
 
 
+# form for adding product by user(only is he's register)
 class AddProduct(forms.ModelForm):
     class Meta:
         model = Product

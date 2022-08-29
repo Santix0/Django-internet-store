@@ -27,6 +27,7 @@ class MainPageProducts(ListView):
         return Product.objects.order_by('-created_at')
 
 
+# TODO:
 # this class return all info about one product that have select the user
 class ShowAloneProduct(ListView):
     model = Product
@@ -74,11 +75,3 @@ def searching_system(request):
 
         product = Product.objects.all().ordered_by('-created_at')
         return product
-
-    # try:
-    #     q = request.GET['q']
-    #     posts = Product.objects.filter(name__search=q)
-    #     return render('main_page.html', {'posts': posts, 'q': q})
-    # except KeyError:
-    #     return render('main_page.html')
-
