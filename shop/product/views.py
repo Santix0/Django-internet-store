@@ -27,20 +27,14 @@ class MainPageProducts(ListView):
         return Product.objects.order_by('-created_at')
 
 
-# TODO:
-# this class return all info about one product that have select the user
-class ShowAloneProduct(ListView):
-    model = Product
-    context_object_name = 'product'
-    template_name = 'product/product.html'
+# function that show to user product that is filtered by slug
+def get_product_separately(request, slug):
+    # get product by slug
+    product = Product.objects.get(slug=slug)
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context['name'] = Product.objects.get(pk=self.kwargs['id'])
-        return context
+    context = {'product': product}
 
-    def get_queryset(self):
-        return Product.objects.get(slug=self.kwargs["slug"])
+    return render(request, 'product/product.html', context)
 
 
 # Class for add product from person to db
