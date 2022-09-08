@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse, reverse_lazy
 
+from .utils import validation_if_number_is_positive
+
 
 class Category(models.Model):
     title = models.CharField(max_length=150, db_index=True)
@@ -16,9 +18,10 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    id = models.BigAutoField(unique=True, primary_key=True)
     name = models.CharField(max_length=150, db_index=True)
     slug = models.SlugField(max_length=150)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[validation_if_number_is_positive])
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_creator', default=1)
     author = models.CharField(max_length=255, default='admin')
     description = models.TextField(blank=True)

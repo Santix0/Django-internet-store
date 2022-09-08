@@ -1,22 +1,3 @@
-/*header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 10%;
-}*/
-li, a, button {
-    font-family: "Montserrat", sans-serif;
-    font-size: 16;
-    color: #edf0f1;
+a {
     text-decoration: none;
-}
-button {
-    border: 4px solid purple;
-}
-.information {
-    text-align: left;
-    display: ruby;
-    height: 142px;
-    border: 5px solid transparent;
-    padding: 5px;
 }

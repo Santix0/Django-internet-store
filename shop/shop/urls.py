@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('product.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('cart/', include('shopping_cart.urls'))
+    path('cart/', include('shopping_cart.urls')),
 ]

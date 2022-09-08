@@ -7,15 +7,27 @@
     <title>Cart</title>
 </head>
 <body>
+<header>
+    {% include 'inc/_nav.html' %}
+</header>
     {% for item in cart %}
+    {% for product in item.items.all %}
         <p>Product: {{ item.items.all| join:", "}}</p>
+        <p>Price: {{ product.product.price }}</p>
+        <p>Description: {{ product.product.description }}</p>
         <p>Author: {{ item.owner }}</p>
         <p>You order this product to cart at {{ item.date_ordered }}</p>
-        <p>This product was created at {{ item.date_added }}</p>
+        <p>Product was created on {{ product.product.created_at }}</p>
+        <button type="submit">
+            <span>
+                <a href="{% url 'delete_from_cart' item.id %}">Delete from cart</a>
+            </span>
+        </button>
+            <hr>
+    {% endfor %}
     {% endfor %}
     <button>
         <a href="cart_total_cost">Buy</a>
     </button>
-
 </body>
 </html>

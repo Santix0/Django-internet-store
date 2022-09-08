@@ -1,17 +1,15 @@
-    <header>
-        <nav id="top_header">
-            <ul>
-                <li><a href="{% url 'main_page' %}" id="name">Site</a></li>
-                <form class="form-inline my-2 my-lg-0" action="{% url 'main_page' %}">
-                    <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                {% if request.user.is_authenticated %}
-                <li><a href="#">Cart</a></li>
-                {% else %}
-                <li><a href="{% url 'main_page' %}">Signup</a></li>
-                {% endif %}
-                <li><a href="{% url 'add_product' %}">Add product</a></li>
-            </ul>
-        </nav>
-    </header>
+<nav id="top_header">
+    <ul>
+        <li><a href="{% url 'main_page' %}" id="name">Site</a></li>
+        <form class="form-inline my-2 my-lg-0" action="get">
+            <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'user_cart' %}">Cart</a></li>
+        {% else %}
+        <li><a href="{% url 'main_page' %}">Signup</a></li>
+        {% endif %}
+        <li><a href="{% url 'add_product' %}">Add product</a></li>
+    </ul>
+</nav>

@@ -6,17 +6,7 @@
 </head>
 <body>
 <header>
-    <div id="top_header">
-        <ul>
-            <li><a href="{% url 'main_page' %}" id="name">Site</a></li>
-            {% if request.user.is_authenticated %}
-            <li><a href="{% url 'main_page' %}">Bag</a></li>
-            {% else %}
-            <li><a href="{% url 'main_page' %}">Signup</a></li>
-            {% endif %}
-            <li><a href="{% url 'add_product' %}">Add product</a></li>
-        </ul>
-    </div>
+    {% include 'inc/_nav.html' %}
 </header>
 <form action="{% url 'add_product' %} " method="post">
     {% csrf_token %}

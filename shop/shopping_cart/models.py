@@ -6,6 +6,7 @@ from product.models import Product
 
 
 class OrderItem(models.Model):
+    id = models.BigAutoField(unique=True, primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     is_ordered = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now=True)
@@ -16,10 +17,11 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
+    id = models.BigAutoField(unique=True, primary_key=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     is_ordered = models.BooleanField(default=False)
     items = models.ManyToManyField(OrderItem)
-    date_ordered = models.DateTimeField(auto_now=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.owner}'

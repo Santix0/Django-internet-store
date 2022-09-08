@@ -48,6 +48,7 @@ class AddProductView(CreateView):
 def adding_product(request):
     if request.method == 'POST':
         form = AddProduct(request.POST)
+        form.add()
         if form.is_valid():
             form.save()
             return redirect('main_page')
@@ -59,13 +60,20 @@ def adding_product(request):
 
 # TODO: create function that will make the search field
 def searching_system(request):
-    searching_product = requests.GET.get()
+    searching_product = request.GET
     if searching_product:
         product = Product.objects.filter(
-            Q(name__icontains=searching_product) & Q(category__icontains=searching_product))
-        return product
+            Q(name__icontains=searching_product) & Q(category__icontains=searching_product)
+            )
+        context = {
+            'product': product
+        }
+        return context
     else:
         # If not the searched, return default product
 
         product = Product.objects.all().ordered_by('-created_at')
-        return product
+        context ={
+            'product': product
+        }
+        return context
