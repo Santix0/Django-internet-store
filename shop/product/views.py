@@ -1,4 +1,5 @@
 import requests
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -27,8 +28,8 @@ class MainPageProducts(ListView):
         return Product.objects.order_by('-created_at')
 
 
-# function that show to user product that is filtered by slug
-def get_product_separately(request, slug):
+# function that show to user product separately that is filtered by slug
+def get_product_separately(request, slug: str) -> dict:
     # get product by slug
     product = Product.objects.get(slug=slug)
 
@@ -37,16 +38,19 @@ def get_product_separately(request, slug):
     return render(request, 'product/product.html', context)
 
 
-# Class for add product from person to db
+# Class for add product from user to db
 class AddProductView(CreateView):
     form_class = AddProduct
     template_name = 'product/adding_product.html'
     success_url = reverse_lazy('main_page')
 
 
-# The form for adding product by person to data base
-def adding_product(request):
+# The form for adding product by person to db
+@login_required()
+def adding_product(request) -> dict:
+    # checking the method of request
     if request.method == 'POST':
+        # creating form for adding to db
         form = AddProduct(request.POST)
         form.add()
         if form.is_valid():
@@ -58,22 +62,28 @@ def adding_product(request):
     return render(request, 'product/adding_product.html', context)
 
 
-# TODO: create function that will make the search field
-def searching_system(request):
-    searching_product = request.GET
-    if searching_product:
-        product = Product.objects.filter(
-            Q(name__icontains=searching_product) & Q(category__icontains=searching_product)
-            )
-        context = {
-            'product': product
-        }
-        return context
-    else:
-        # If not the searched, return default product
+def searching_system(request, product_name: str) -> dict:
+    query = request.GET.get('q')
+    searched_products = Product.objects.filter(
+        Q(name__icontains=query)
+    )
+    # creating context
+    context = {
+        'searched_products': searched_products,
+    }
 
-        product = Product.objects.all().ordered_by('-created_at')
-        context ={
-            'product': product
-        }
-        return context
+    return render(request, 'product/searching_system.html', context)
+
+
+# function that filter product by category
+def get_categorys_product(request, category_id: int) -> dict:
+    # filter product by id with using Q object
+    product_to_site = Product.objects.filter(
+        category_id=category_id
+    )
+    # creating context
+    context = {
+        'products': product_to_site
+    }
+
+    return render(request, 'product/products_filtered_by_category_id.html', context)

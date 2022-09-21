@@ -10,6 +10,7 @@
 <header>
     {% include 'inc/_nav.html' %}
 </header>
+    <p>Total cost:{{ total_price }}</p>
     {% for item in cart %}
     {% for product in item.items.all %}
         <p>Product: {{ item.items.all| join:", "}}</p>
@@ -27,7 +28,7 @@
     {% endfor %}
     {% endfor %}
     <button>
-        <a href="cart_total_cost">Buy</a>
+        <a href="{% url 'checkout' %}">Checkout</a>
     </button>
 </body>
 </html>

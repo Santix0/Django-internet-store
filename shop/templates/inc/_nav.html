@@ -1,15 +1,36 @@
 <nav id="top_header">
+    {% load product_tags %}
+    {% get_all_categories as categories %}
     <ul>
-        <li><a href="{% url 'main_page' %}" id="name">Site</a></li>
-        <form class="form-inline my-2 my-lg-0" action="get">
-            <input class="form-control mr-sm-2" type="search"   placeholder="Search" aria-label="Search" name="search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <li>
+            <a href="{% url 'main_page' %}" id="name">Site</a>
+        </li>
+        <div class="searching_system">
+            <form class="form-inline my-2 my-lg-0" action="get">
+                <span>
+                    <input class="searching system" type="search" placeholder="Search" aria-label="Search" name="q">
+                </span>
+                <button class="submit button" type="submit" value="submit">
+                    <span>
+                        Search
+                    </span>
+                </button>
+            </form>
+        </div>
+        <div class="catalog">
+
+        </div>
         {% if request.user.is_authenticated %}
-        <li><a href="{% url 'user_cart' %}">Cart</a></li>
+        <li>
+            <a href="{% url 'user_cart' %}">Cart</a>
+        </li>
         {% else %}
-        <li><a href="{% url 'main_page' %}">Signup</a></li>
+        <li>
+            <a href="{% url 'main_page' %}">Signup</a>
+        </li>
         {% endif %}
-        <li><a href="{% url 'add_product' %}">Add product</a></li>
+        <li>
+            <a href="{% url 'add_product' %}">Add product</a>
+        </li>
     </ul>
 </nav>

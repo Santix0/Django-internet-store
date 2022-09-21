@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header>
+    {% include 'inc/_nav.html' %}
+</header>
+    {% for product in searched_products %}
+        <p>Product: {{ product.name }}</p>
+        <p>Price: {{ product.price }}</p>
+        <p>Author: {{ product.author }}</p>
+        <p>Category: {{ product.category }}</p>
+        <p>Description: {{ product.description }}</p>
+        <p>Posted: {{ product.created_at }}</p>
+        <a href="{{ product.get_absolute_url }}">See more</a>
+        <div type="addToCartButton">
+            <button type="submit">
+                <span>
+                    <a href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+                </span>
+            </button>
+        </div>
+        <hr>
+    {% endfor %}
+</body>
+</html>
