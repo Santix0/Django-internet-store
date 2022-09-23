@@ -5,13 +5,23 @@
     <title>Product</title>
 </head>
 <body>
+<header>
+    {% include 'inc/_nav.html' %}
+</header>
     <div class="product">
         <p class="name">Product: {{ product.name }}</p>
         <p class="price">Price: {{ product.price }}</p>
         <p class="description">Description: {{ product.description }}</p>
         <p class="author">Author: {{ product.author }}</p>
-        <p class="category">Category: {{ product.category }}</p>
+        <p class="category"><a href="{% url 'get_categorys_product' product.category_id %}">Category: {{ product.category }}</a></p>
         <p class="created_at">Posted: {{ product.created_at|date:"Y m d " }}</p>
+        <div>
+            <button>
+                <span>
+                    <a href="{% url 'add_to_cart' request.user.id product.id %}">Add to cart</a>
+                </span>
+            </button>
+        </div>
     </div>
 </body>
 </html>

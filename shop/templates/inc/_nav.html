@@ -18,11 +18,15 @@
             </form>
         </div>
         <div class="catalog">
-
+            <button>
+                <span>
+                    <a href="{% url 'catalog' %}">Catalog</a>
+                </span>
+            </button>
         </div>
         {% if request.user.is_authenticated %}
         <li>
-            <a href="{% url 'user_cart' %}">Cart</a>
+            <a href="{% url 'user_cart' request.user.id %}">Cart</a>
         </li>
         {% else %}
         <li>

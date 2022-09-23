@@ -19,7 +19,7 @@
         <div type="addToCartButton">
             <button type="submit">
                 <span>
-                    <a href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+                    <a href="{% url 'add_to_cart' request.user.id product.id %}">Add to cart</a>
                 </span>
             </button>
         </div>

@@ -87,3 +87,13 @@ def get_categorys_product(request, category_id: int) -> dict:
     }
 
     return render(request, 'product/products_filtered_by_category_id.html', context)
+
+
+def get_catalog(request) -> dict:
+    categories = Category.objects.all()
+
+    context = {
+        'categories': categories
+    }
+
+    return render(request, 'product/catalog.html', context)

@@ -33,9 +33,9 @@ from .utils import generate_order_id
 
 # function that give to user's cart the products that he added in cart
 @login_required()
-def cart_products(request) -> dict:
+def cart_products(request, user_id) -> dict:
     # creating object of Order model with specific arguments
-    cart = Order.objects.filter(is_ordered=True)
+    cart = Order.objects.filter(is_ordered=True, owner_id=user_id)
     # creating car for sum total price of user's cart
     total_price = 0
     for items in cart.all():
@@ -50,10 +50,9 @@ def cart_products(request) -> dict:
     return render(request, 'shopping_cart/shopping_cart.html', context)
 
 
-# decorator for check if user is auth
-# TODO: figure out how with django orm create ManyToManyField for Order object
+# Function that add the products from main page to user's page
 @login_required()
-def add_to_cart(request, item_id):
+def add_to_cart(request, user_id: int, item_id: int):
     # filter the product by id
     product_to_add = Product.objects.filter(pk=item_id)
     # check if product exists
@@ -67,7 +66,7 @@ def add_to_cart(request, item_id):
 
 
 @login_required()
-def delete_form_cart(request, item_id):
+def delete_from_cart(request, user_id: int, item_id: int):
     # filter the product from cart by pk
     product_to_delete = Order.objects.filter(pk=item_id)
     # check if product exists

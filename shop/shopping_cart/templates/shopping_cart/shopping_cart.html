@@ -19,16 +19,19 @@
         <p>Author: {{ item.owner }}</p>
         <p>You order this product to cart at {{ item.date_ordered }}</p>
         <p>Product was created on {{ product.product.created_at }}</p>
-        <button type="submit">
-            <span>
-                <a href="{% url 'delete_from_cart' item.id %}">Delete from cart</a>
-            </span>
-        </button>
+        <a href="{% url 'product' product.product.slug %}">See more</a>
+        <div>
+            <button type="submit">
+                <span>
+                    <a href="{% url 'delete_from_cart' request.user.id item.id %}">Delete from cart</a>
+                </span>
+            </button>
+        </div>
             <hr>
     {% endfor %}
     {% endfor %}
     <button>
-        <a href="{% url 'checkout' %}">Checkout</a>
+        <a href="{% url 'checkout' request.user.id%}">Checkout</a>
     </button>
 </body>
 </html>
