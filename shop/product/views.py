@@ -1,13 +1,15 @@
 import requests
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.context_processors import messages
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from django.db.models import Q
+from django.contrib.auth import login, logout, authenticate
 
-from .forms import AddProduct
+from .forms import AddProduct, UserSignUpForm, UserSignInForm
 from .models import *
 from bs4 import BeautifulSoup
 
@@ -50,7 +52,7 @@ class AddProductView(CreateView):
 def adding_product(request) -> dict:
     # checking the method of request
     if request.method == 'POST':
-        # creating form for adding to db
+        # creating object for adding to db
         form = AddProduct(request.POST)
         form.add()
         if form.is_valid():
@@ -97,3 +99,49 @@ def get_catalog(request) -> dict:
     }
 
     return render(request, 'product/catalog.html', context)
+
+
+def sign_up(request) -> dict:
+    # checking the method of request
+    if request.method == 'POST':
+        # creating form for sign up to user
+        form = UserSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main_page')
+    else:
+        form = UserSignUpForm()
+
+    # creating context
+    context = {
+        'form': form,
+    }
+    # form = UserSignUpForm()
+    return render(request, 'product/sign_up.html', context)
+
+
+def sign_in(request) -> dict:
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        form = UserSignInForm(request.POST)
+
+        if user is not None:
+            login(request, user)
+            return redirect('main_page')
+        else:
+            messages.info(request, 'Username or password is incorrect.')
+    else:
+        form = UserSignInForm()
+
+    context = {'form': form}
+
+    return render(request, 'product/sign_in.html', context)
+
+
+def logout_user(reqeust) -> dict:
+    logout(reqeust)
+    return redirect('main_page')
+

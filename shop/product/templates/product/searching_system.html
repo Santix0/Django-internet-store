@@ -17,11 +17,19 @@
         <p>Posted: {{ product.created_at }}</p>
         <a href="{{ product.get_absolute_url }}">See more</a>
         <div type="addToCartButton">
-            <button type="submit">
-                <span>
-                    <a href="{% url 'add_to_cart' request.user.id product.id %}">Add to cart</a>
-                </span>
-            </button>
+            {% if request.user.is_authenticated %}
+                <button type="submit">
+                    <span>
+                        <a href="{% url 'add_to_cart' request.user.id product.id %}">Add to cart</a>
+                    </span>
+                </button>
+            {% else %}
+                <button type="submit">
+                    <span>
+                        <a href="#">Add to cart</a>
+                    </span>
+                </button>
+            {% endif %}
         </div>
         <hr>
     {% endfor %}

@@ -16,11 +16,19 @@
         <p class="category"><a href="{% url 'get_categorys_product' product.category_id %}">Category: {{ product.category }}</a></p>
         <p class="created_at">Posted: {{ product.created_at|date:"Y m d " }}</p>
         <div>
-            <button>
-                <span>
-                    <a href="{% url 'add_to_cart' request.user.id product.id %}">Add to cart</a>
-                </span>
-            </button>
+            {% if request.user.is_authenticated %}
+                <button type="submit">
+                    <span>
+                        <a href="{% url 'add_to_cart' request.user.id product.id %}">Add to cart</a>
+                    </span>
+                </button>
+            {% else %}
+                <button type="submit">
+                    <span>
+                        <a href="#">Add to cart</a>
+                    </span>
+                </button>
+            {% endif %}
         </div>
     </div>
 </body>

@@ -8,5 +8,8 @@ urlpatterns = [
     path('<str:product_name>/', searching_system, name='searching_system'),
     path('add_product/<str:product_name>', searching_system, name='add_to_product_searching_system'),
     path('catalog/all', get_catalog, name='catalog'),
-    path('catalog/all/<int:category_id>', get_categorys_product, name='get_categorys_product')
+    path('catalog/all/<int:category_id>', get_categorys_product, name='get_categorys_product'),
+    path('user/sign_up/', sign_up, name='sign_up'),
+    path('user/sing_in/', sign_in, name='sign_in'),
+    path('user/logout/', logout_user, name='logout_user'),
 ]

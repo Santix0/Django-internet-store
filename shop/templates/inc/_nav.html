@@ -30,11 +30,25 @@
         </li>
         {% else %}
         <li>
-            <a href="{% url 'main_page' %}">Signup</a>
+            <a href="{% url 'main_page' %}">Cart</a>
         </li>
         {% endif %}
         <li>
             <a href="{% url 'add_product' %}">Add product</a>
         </li>
+        {% if request.user.is_authenticated %}
+        <li>
+            <p>Hello {{ request.user }}</p>
+            <a href="{% url 'logout_user' %}">Logout</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{% url 'sign_in' %}">Sign in</a>
+        </li>
+        <li>
+            <p>Hello {{ request.user }}</p>
+            <a href="{% url 'sign_up' %}">Sign up</a>
+        </li>
+        {% endif %}
     </ul>
 </nav>

@@ -22,11 +22,19 @@
                 <p class="{{ item.created_at }}">Posted:{{ item.created_at|date:"Y:m:d" }}</p>
                 <a href="{{ item.get_absolute_url }}">See more</a>
                 <div type="addToCartButton">
-                    <button type="submit">
-                        <span>
-                            <a href="{% url 'add_to_cart' request.user.id item.id %}">Add to cart</a>
-                        </span>
-                    </button>
+                    {% if request.user.is_authenticated %}
+                        <button type="submit">
+                            <span>
+                                <a href="{% url 'add_to_cart' request.user.id item.id %}">Add to cart</a>
+                            </span>
+                        </button>
+                    {% else %}
+                        <button type="submit">
+                            <span>
+                                <a href="#">Add to cart</a>
+                            </span>
+                        </button>
+                    {% endif %}
                 </div>
             </div>
     <hr>

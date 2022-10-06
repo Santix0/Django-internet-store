@@ -21,11 +21,19 @@
         <p>Product was created on {{ product.product.created_at }}</p>
         <a href="{% url 'product' product.product.slug %}">See more</a>
         <div>
-            <button type="submit">
-                <span>
-                    <a href="{% url 'delete_from_cart' request.user.id item.id %}">Delete from cart</a>
-                </span>
-            </button>
+            {% if request.user.is_authenticated %}
+                <button type="submit">
+                    <span>
+                        <a href="{% url 'add_to_cart' request.user.id item.id %}">Add to cart</a>
+                    </span>
+                </button>
+            {% else %}
+                <button type="submit">
+                    <span>
+                        <a href="#">Add to cart</a>
+                    </span>
+                </button>
+            {% endif %}
         </div>
             <hr>
     {% endfor %}
