@@ -67,7 +67,7 @@ def adding_product(request) -> dict:
 def searching_system(request, product_name: str) -> dict:
     query = request.GET.get('q')
     searched_products = Product.objects.filter(
-        Q(name__icontains=query)
+        Q(name__icontains=product_name)
     )
     # creating context
     context = {
