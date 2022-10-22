@@ -6,10 +6,8 @@
             <a href="{% url 'main_page' %}" id="name">Site</a>
         </li>
         <div class="searching_system">
-            <form class="form-inline my-2 my-lg-0" method="get" action="search">
-                <span>
-                    <input class="searching system" type="search" placeholder="Search" aria-label="Search" name="q">
-                </span>
+            <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'searching_system' %}">
+                    <input class="searching system" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="submit button" type="submit" value="submit">
                     <span>
                         Search
@@ -38,7 +36,9 @@
         </li>
         {% if request.user.is_authenticated %}
         <li>
-            <p>Hello {{ request.user }}</p>
+            <a href="{% url 'order' request.user.id %}">Order</a>
+        </li>
+        <li>
             <a href="{% url 'logout_user' %}">Logout</a>
         </li>
         {% else %}
@@ -46,7 +46,6 @@
             <a href="{% url 'sign_in' %}">Sign in</a>
         </li>
         <li>
-            <p>Hello {{ request.user }}</p>
             <a href="{% url 'sign_up' %}">Sign up</a>
         </li>
         {% endif %}

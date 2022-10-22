@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+</head>
+<body>
+<header>
+    {% include 'inc/_nav.html' %}
+</header>
+{% for product in products %}
+    <p>Address: {{ product.address }}</p>
+    <p>Country: {{ product.country }}</p>
+    {% for item in product.products.all %}
+    <p>Products: {{ item.items.all | join:", " }}</p>
+{% endfor %}
+<hr>
+{% endfor %}
+</body>
+</html>

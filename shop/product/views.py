@@ -64,8 +64,8 @@ def adding_product(request) -> dict:
     return render(request, 'product/adding_product.html', context)
 
 
-def searching_system(request, product_name: str) -> dict:
-    query = request.GET.get('q')
+def searching_system(request) -> dict:
+    query = request.GET.get('search', '')
     searched_products = Product.objects.filter(
         Q(name__icontains=query)
     )
@@ -122,13 +122,16 @@ def sign_up(request) -> dict:
 
 def sign_in(request) -> dict:
     if request.method == 'POST':
+        # taking the username and password from form
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        # authenticate user by username and password
         user = authenticate(request, username=username, password=password)
         form = UserSignInForm(request.POST)
 
         if user is not None:
+            # if user exits, we login user
             login(request, user)
             return redirect('main_page')
         else:

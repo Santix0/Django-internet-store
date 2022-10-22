@@ -20,7 +20,7 @@ class Category(models.Model):
 class Product(models.Model):
     id = models.BigAutoField(unique=True, primary_key=True)
     name = models.CharField(max_length=150, db_index=True)
-    slug = models.SlugField(max_length=150)
+    slug = models.SlugField(max_length=150, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[validation_if_number_is_positive])
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_creator', default=1)
     author = models.CharField(max_length=255, default='admin')

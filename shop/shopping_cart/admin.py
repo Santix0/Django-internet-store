@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Checkout
 
 
 class OrderItemAdmin(admin.ModelAdmin):
@@ -13,5 +13,6 @@ class OrderItemAdmin(admin.ModelAdmin):
     readonly_fields = ('date_added', 'data_ordered',)
 
 
+admin.site.register(Checkout)
 admin.site.register(Order)
 admin.site.register(OrderItem, OrderItemAdmin)

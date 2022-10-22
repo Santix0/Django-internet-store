@@ -9,7 +9,8 @@ from django.views.generic import ListView
 from django.shortcuts import get_object_or_404
 from django.db import models
 
-from .models import Order, OrderItem
+from .forms import CheckoutForm
+from .models import Order, OrderItem, Checkout
 
 # this class return user of store his products in cart
 from product.models import Product
@@ -17,21 +18,6 @@ from product.models import Product
 from .utils import generate_order_id
 
 
-# create class that will return all products in cart
-# class Cart(ListView):
-#     model = Order
-#     context_object_name = 'cart'
-#     template_name = 'shopping_cart/shopping_cart.html'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
-#
-#     def get_queryset(self):
-#         return Order.objects.filter(is_ordered=True)
-
-
-# function that give to user's cart the products that he added in cart
 @login_required()
 def cart_products(request, user_id) -> dict:
     # creating object of Order model with specific arguments
@@ -63,6 +49,25 @@ def add_to_cart(request, user_id: int, item_id: int):
         cart.save()
         cart.items.add(cart_item)
     return redirect('main_page')
+# @login_required()
+# def add_to_cart(request, user_id: int, item_id: int):
+#     # filter the product by id
+#     product_to_add = Product.objects.filter(pk=item_id)
+#     # check if product exists
+#     if product_to_add.exists():
+#         cart = Order.objects.filter(owner_id=request.user.id)
+#         # checking if cart objects with specific user_id exists
+#         if cart.exists():
+#             # creating objects of OrderItem to add item to order
+#             cart_item = OrderItem.objects.create(product_id=item_id, is_ordered=True)
+#             cart.items.add(cart_item)
+#         else:
+#             # creating object of OrderItem for cart
+#             cart_item = OrderItem.objects.create(product_id=item_id, is_ordered=True)
+#             cart = Order.objects.create(owner=request.user, is_ordered=True)
+#             cart.save()
+#             cart.items.add(cart_item)
+#     return redirect('main_page')
 
 
 @login_required()
@@ -76,14 +81,15 @@ def delete_from_cart(request, user_id: int, item_id: int):
     return redirect('main_page')
 
 
-# TODO: figure out how do this function
 # return total cost of cart
 @login_required()
 def total_price_of_cart(request, owner_id: int) -> dict:
     order_items = Order.objects.filter(is_ordered=True, owner_id=owner_id)
     total_price = 0
+    # going through items in cart for get the price of each product
     for items in order_items.all():
         for item in items.items.all():
+            # adding each product's price to total price
             total_price += item.product.price
 
     context = {
@@ -91,4 +97,47 @@ def total_price_of_cart(request, owner_id: int) -> dict:
         'total_price': total_price,
     }
 
-    return render(request, 'shopping_cart/cart_total_cost.html', context)
+    return render(request, 'shopping_cart/checkout.html', context)
+
+
+@login_required()
+def checkout(request, user_id: int, user_name: str) -> dict:
+    if request.method == 'POST':
+        # creating form
+        form = CheckoutForm(request.POST)
+        # creating attributes for order object
+        full_name = request.POST['full_name']
+        address = request.POST['address']
+        zip = request.POST['zip']
+        country = request.POST['country']
+        phone = request.POST['phone']
+        products = Order.objects.filter(owner_id=request.user.id)
+        # create order object
+        order = Checkout.objects.create(full_name=full_name, address=address,
+                                        zip=zip, country=country, phone=phone,
+                                        )
+        # adding user_id to checkout object
+        order.user_id.set(f"{user_id}")
+        # adding products to checkout object
+        for product in products:
+            order.products.add(product)
+        return redirect('main_page')
+    else:
+        form = CheckoutForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'shopping_cart/checkout.html', context)
+
+
+@login_required()
+def order(request, user_id: int) -> dict:
+    products = Checkout.objects.filter(user_id=user_id)
+
+    context = {
+        'products': products,
+    }
+
+    return render(request, 'shopping_cart/order.html', context)

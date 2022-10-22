@@ -11,6 +11,11 @@
     {% include 'inc/_nav.html' %}
 </header>
     <p>Total cost:{{ total_price }}</p>
+    <button>
+        <span>
+            <a href="{% url 'checkout' request.user.id request.user.username %}">Buy</a>
+        </span>
+    </button>
     {% for item in cart %}
     {% for product in item.items.all %}
         <p>Product: {{ item.items.all| join:", "}}</p>
@@ -24,13 +29,13 @@
             {% if request.user.is_authenticated %}
                 <button type="submit">
                     <span>
-                        <a href="{% url 'add_to_cart' request.user.id item.id %}">Add to cart</a>
+                        <a href="{% url 'delete_from_cart' request.user.id item.id %}">Delete from cart</a>
                     </span>
                 </button>
             {% else %}
                 <button type="submit">
                     <span>
-                        <a href="#">Add to cart</a>
+                        <a href="#">Delete form cart</a>
                     </span>
                 </button>
             {% endif %}
@@ -38,8 +43,5 @@
             <hr>
     {% endfor %}
     {% endfor %}
-    <button>
-        <a href="{% url 'checkout' request.user.id%}">Checkout</a>
-    </button>
 </body>
 </html>

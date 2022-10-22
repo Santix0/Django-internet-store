@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'product',
     'debug_toolbar',
     'shopping_cart',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
