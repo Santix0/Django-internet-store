@@ -8,6 +8,7 @@ PAYMENT_OPTION = (
     ('S', 'Stripe'),
     ('P', 'PayPal'),
 )
+#
 
 
 class CheckoutForm(forms.ModelForm):
