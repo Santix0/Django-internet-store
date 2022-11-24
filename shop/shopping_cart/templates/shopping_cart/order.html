@@ -13,6 +13,13 @@
     <p>Country: {{ product.country }}</p>
     {% for item in product.products.all %}
     <p>Products: {{ item.items.all | join:", " }}</p>
+    <button type="submit" value="submit">
+        <span>
+            <a href="{% url 'delete_order' request.user.id product.id %}">
+                Delete
+            </a>
+        </span>
+    </button>
 {% endfor %}
 <hr>
 {% endfor %}

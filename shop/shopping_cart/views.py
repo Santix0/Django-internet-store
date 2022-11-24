@@ -49,29 +49,9 @@ def add_to_cart(request, user_id: int, item_id: int):
         cart.save()
         cart.items.add(cart_item)
     return redirect('main_page')
-# @login_required()
-# def add_to_cart(request, user_id: int, item_id: int):
-#     # filter the product by id
-#     product_to_add = Product.objects.filter(pk=item_id)
-#     # check if product exists
-#     if product_to_add.exists():
-#         cart = Order.objects.filter(owner_id=request.user.id)
-#         # checking if cart objects with specific user_id exists
-#         if cart.exists():
-#             # creating objects of OrderItem to add item to order
-#             cart_item = OrderItem.objects.create(product_id=item_id, is_ordered=True)
-#             cart.items.add(cart_item)
-#         else:
-#             # creating object of OrderItem for cart
-#             cart_item = OrderItem.objects.create(product_id=item_id, is_ordered=True)
-#             cart = Order.objects.create(owner=request.user, is_ordered=True)
-#             cart.save()
-#             cart.items.add(cart_item)
-#     return redirect('main_page')
-
 
 @login_required()
-def delete_from_cart(request, user_id: int, item_id: int):
+def delete_from_cart(request, user_id: int, item_id: int) -> redirect:
     # filter the product from cart by pk
     product_to_delete = Order.objects.filter(pk=item_id)
     # check if product exists
@@ -83,7 +63,7 @@ def delete_from_cart(request, user_id: int, item_id: int):
 
 # return total cost of cart
 @login_required()
-def total_price_of_cart(request, owner_id: int) -> dict:
+def total_price_of_cart(request, owner_id: int) -> render:
     order_items = Order.objects.filter(is_ordered=True, owner_id=owner_id)
     total_price = 0
     # going through items in cart for get the price of each product
@@ -101,7 +81,7 @@ def total_price_of_cart(request, owner_id: int) -> dict:
 
 
 @login_required()
-def checkout(request, user_id: int, user_name: str) -> dict:
+def checkout(request, user_id: int, user_name: str) -> render:
     if request.method == 'POST':
         # creating form
         form = CheckoutForm(request.POST)
@@ -133,7 +113,7 @@ def checkout(request, user_id: int, user_name: str) -> dict:
 
 
 @login_required()
-def order(request, user_id: int) -> dict:
+def order(request, user_id: int) -> render:
     products = Checkout.objects.filter(user_id=user_id)
 
     context = {
@@ -141,3 +121,13 @@ def order(request, user_id: int) -> dict:
     }
 
     return render(request, 'shopping_cart/order.html', context)
+
+
+@login_required()
+def delete_order(request, user_id: id, order_id: id) -> redirect:
+    # get checkout to delete by id
+    checkout_to_delete = Checkout.objects.get(id=order_id)
+
+    checkout_to_delete.delete()
+
+    return redirect('main_page')
