@@ -28,6 +28,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+AUTH_USER_MODEL = 'useraccount.User'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'shopping_cart',
     'django_countries',
+    'useraccount',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,6 @@ STATICFILES_DIRS = [
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
+
+
+

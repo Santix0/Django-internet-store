@@ -1,3 +1,5 @@
+import random
+
 import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.context_processors import messages
@@ -9,7 +11,7 @@ from django.views.generic import ListView, CreateView
 from django.db.models import Q
 from django.contrib.auth import login, logout, authenticate
 
-from .forms import AddProduct, UserSignUpForm, UserSignInForm
+from .forms import AddProduct
 from .models import *
 from bs4 import BeautifulSoup
 
@@ -91,6 +93,7 @@ def get_categorys_product(request, category_id: int) -> dict:
     return render(request, 'product/products_filtered_by_category_id.html', context)
 
 
+# function that return all categories
 def get_catalog(request) -> dict:
     categories = Category.objects.all()
 
@@ -99,52 +102,4 @@ def get_catalog(request) -> dict:
     }
 
     return render(request, 'product/catalog.html', context)
-
-
-def sign_up(request) -> dict:
-    # checking the method of request
-    if request.method == 'POST':
-        # creating form for sign up to user
-        form = UserSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('main_page')
-    else:
-        form = UserSignUpForm()
-
-    # creating context
-    context = {
-        'form': form,
-    }
-    # form = UserSignUpForm()
-    return render(request, 'product/sign_up.html', context)
-
-
-def sign_in(request) -> dict:
-    if request.method == 'POST':
-        # taking the username and password from form
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        # authenticate user by username and password
-        user = authenticate(request, username=username, password=password)
-        form = UserSignInForm(request.POST)
-
-        if user is not None:
-            # if user exits, we login user
-            login(request, user)
-            return redirect('main_page')
-        else:
-            messages.info(request, 'Username or password is incorrect.')
-    else:
-        form = UserSignInForm()
-
-    context = {'form': form}
-
-    return render(request, 'product/sign_in.html', context)
-
-
-def logout_user(reqeust) -> dict:
-    logout(reqeust)
-    return redirect('main_page')
 

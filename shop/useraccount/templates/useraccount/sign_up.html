@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+</head>
+<body>
+
+<header>
+    {% include 'inc/_nav.html' %}
+</header>
+
+<form method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button value="submit" type="submit">Sign up</button>
+</form>
+
+</body>
+</html>

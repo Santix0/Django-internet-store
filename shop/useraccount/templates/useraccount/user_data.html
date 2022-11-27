@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User data</title>
+</head>
+<body>
+
+<header>
+    {% include 'inc/_nav.html'%}
+</header>
+
+<div class="user_information">
+    <p>Username: {{user.username}}</p>
+    <p>Email: {{user.email}}</p>
+    <p>First name: {{user.first_name}}</p>
+    <p>Last name: {{user.last_name}}</p>
+</div>
+
+<div class="change_user_info">
+    <button>
+        <span>
+            <a href="{% url 'change_user_account' request.user.id %}">Change information</a>
+        </span>
+    </button>
+</div>
+
+<div class="change_user_password">
+    <button>
+        <span>
+            <a href="{% url 'change_password' request.user.id %}">Forgot password</a>
+        </span>
+    </button>
+</div>
+
+</body>
+</html>

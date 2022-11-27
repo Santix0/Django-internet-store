@@ -1,9 +1,8 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse_lazy
 
 from product.models import Product
-
+from useraccount.models import User
 
 from django_countries.fields import CountryField
 

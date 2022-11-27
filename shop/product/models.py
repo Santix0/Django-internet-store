@@ -1,8 +1,9 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse, reverse_lazy
 
 from .utils import validation_if_number_is_positive
+
+from useraccount.models import User
 
 
 class Category(models.Model):

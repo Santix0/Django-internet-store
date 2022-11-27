@@ -42,7 +42,7 @@
             <a href="{% url 'logout_user' %}">Logout</a>
         </li>
         <li>
-            <a href="#">Account</a>
+            <a href="{% url 'user_data' request.user.id %}">Account</a>
         </li>
         {% else %}
         <li>
